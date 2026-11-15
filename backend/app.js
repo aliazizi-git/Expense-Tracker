@@ -6,6 +6,7 @@ import exportValidation from './middlewares/exportValidation.js'
 import authRouter from './modules/Auth/auth.js'
 import isLogin from './middlewares/isLogin.js'
 import categoryRouter from './modules/Category/category.js'
+import expenseRouter from './modules/Expense/expense.js'
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(exportValidation)
 
 app.use('/api/auth',authRouter)
 app.use('/api/categories',isLogin,categoryRouter)
+app.use('/api/expenses',isLogin,expenseRouter)
 
 app.get('/',(req,res,next)=>{
     res.status(200).json({
