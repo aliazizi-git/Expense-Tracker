@@ -30,7 +30,8 @@ export const useAuthStore = create(
         try {
           const result = await api.post("/auth/register", userData);
           set({ isLoading: false });
-          return notify("success", "Signed up successfully");
+          notify("success", "Signed up successfully");
+          return ({success:true})
         } catch (error) {
           const message =
             error.response?.data?.message || "Registration Failed";

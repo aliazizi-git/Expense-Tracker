@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Login() {
-  const { login, register, isLoading } = useAuthStore();
+  const { login,isLoading } = useAuthStore();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -39,7 +39,9 @@ export default function Login() {
           onChange={(e) => setFormData({...formData,password:e.target.value})}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "loading..." : "Login"}
+        </button>
       </form>
     </div>
   );
