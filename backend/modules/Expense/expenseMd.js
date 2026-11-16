@@ -9,7 +9,6 @@ const expenseSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: [true, "description is required"],
       trim: true,
     },
     category: {

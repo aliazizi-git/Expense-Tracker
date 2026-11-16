@@ -9,11 +9,7 @@ export const createExpenseValidator = [
     .isLength({ max: 150 })
     .withMessage("Title cannot exceed 150 characters"),
 
-  body("description")
-    .trim()
-    .notEmpty()
-    .withMessage("Description is required"),
-
+  body("description").optional().trim(),
   body("category")
     .notEmpty()
     .withMessage("Category is required")
@@ -35,9 +31,7 @@ export const createExpenseValidator = [
 ];
 
 export const updateExpenseValidator = [
-  param("id")
-    .isMongoId()
-    .withMessage("Invalid expense ID format"),
+  param("id").isMongoId().withMessage("Invalid expense ID format"),
 
   body("title")
     .optional()
@@ -49,10 +43,7 @@ export const updateExpenseValidator = [
 
   body("description")
     .optional()
-    .trim()
-    .notEmpty()
-    .withMessage("Description cannot be empty"),
-
+    .trim(),
   body("category")
     .optional()
     .isMongoId()
@@ -72,9 +63,7 @@ export const updateExpenseValidator = [
 ];
 
 export const deleteExpenseValidator = [
-  param("id")
-    .isMongoId()
-    .withMessage("Invalid expense ID format"),
+  param("id").isMongoId().withMessage("Invalid expense ID format"),
 
   handleValidation,
 ];

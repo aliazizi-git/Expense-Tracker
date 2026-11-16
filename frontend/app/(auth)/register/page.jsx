@@ -1,10 +1,13 @@
 "use client";
+
 import { useAuthStore } from "@/Store/useAuthStore";
 import notify from "@/Utils/notify";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Link from "next/link";
+import { User, Mail, Lock, ArrowRight, Sparkles } from "lucide-react";
 
-export default function register() {
+export default function Register() {
   const { register, isLoading } = useAuthStore();
   const [formData, setFormData] = useState({
     username: "",
@@ -12,48 +15,99 @@ export default function register() {
     email: "",
   });
   const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await register(formData);
-      if (res.success) {
+      if (res?.success) {
         router.push("/login");
       }
     } catch (error) {
       notify("error", error.message);
     }
   };
+
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={formData.username}
-          onChange={(e) =>
-            setFormData({ ...formData, username: e.target.value })
-          }
-          required
-          placeholder="Username..."
-        />
-        <input
-          type="email"
-          placeholder="Email..."
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-        <input
-          type="password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-          required
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Creating account..." : "Register"}
-        </button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-zinc-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.15),rgba(255,255,255,0))]">
+      <div className="w-full max-w-md bg-zinc-900/80 border border-zinc-800/90 backdrop-blur-2xl p-8 rounded-3xl shadow-2xl shadow-black/80">
+        <div className="text-center mb-8">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 mx-auto flex items-center justify-center shadow-lg shadow-emerald-500/20 mb-4">
+            <Sparkles className="w-6 h-6 text-zinc-950" />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-white">Create Account</h1>
+          <p className="text-zinc-400 text-xs mt-1.5">Join to manage and optimize your expenses</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
+              Username
+            </label>
+            <div className="relative">
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+              <input
+                type="text"
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                required
+                placeholder="Choose a username"
+                className="w-full bg-zinc-950/70 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
+              Email
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+              <input
+                type="email"
+                placeholder="name@example.com"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+                className="w-full bg-zinc-950/70 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+              <input
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                placeholder="Min. 8 characters"
+                className="w-full bg-zinc-950/70 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full mt-2 bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-zinc-950 font-semibold py-2.5 rounded-xl text-sm transition-all duration-200 shadow-md shadow-emerald-500/20 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>{isLoading ? "Creating account..." : "Sign Up"}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </form>
+
+        <p className="text-center text-xs text-zinc-400 mt-6">
+          Already registered?{" "}
+          <Link href="/login" className="text-emerald-400 hover:text-emerald-300 font-semibold underline-offset-4 hover:underline">
+            Sign in
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
